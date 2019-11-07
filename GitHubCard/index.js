@@ -2,6 +2,23 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+const cardContainer =document.querySelector(".cards")
+const axiosPromise =axios.get( 'https://api.github.com/users/ZIng178')
+console.log(axiosPromise);
+
+axiosPromise.then(response=>{
+  console.log("Me",response.data)
+   const entryPoint =document.querySelector('.cards');
+   console.log("entryPoint", entryPoint)
+   let cards=cardMaker(response.data);
+   console.log("cards", cards)
+   entryPoint.appendChild(cards)
+  })
+
+
+axiosPromise.catch(err=>{
+  console.log(err);
+})
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -44,7 +61,59 @@ const followersArray = [];
   </div>
 </div>
 
+
+
 */
+
+function cardMaker (obj){
+  const card=document.createElement('div');
+  const image=document.createElement('img');
+  const cardInfo=document.createElement('div');
+  const personsName= document.createElement('h3');
+  const pUser=document.createElement('p');
+  const pLocation=document.createElement('p');
+  const pProfile=document.createElement('p');
+  const pFollowers=document.createElement('p');
+  const pFollowing=document.createElement('p');
+  const pBio =document.createElement('p');
+
+
+
+//appendChild 
+
+card.appendChild(image);
+card.appendChild(cardInfo);
+cardInfo.appendChild(personsName);
+cardInfo.appendChild(pUser);
+cardInfo.appendChild(pLocation);
+cardInfo.appendChild(pProfile);
+cardInfo.appendChild(pFollowers);
+cardInfo.appendChild(pFollowing);
+cardInfo.appendChild(pBio);
+
+//setting styles 
+
+card.classList.add("card");
+image.src=obj.avatar_url;
+cardInfo.classList.add("card-info");
+personsName.classList.add('name');
+pUser.classList.add('username');
+
+//Adding content 
+
+pUser.textContent=obj.login;
+personsName.textContent=obj.name;
+pLocation.textContent=obj.location;
+pProfile.textContent=obj.html_url;
+pFollowers.textContent=obj.followers;
+pFollowing.textContent=obj.following;
+pBio.textContent=obj.bio;
+
+return card;
+}
+
+
+
 
 /* List of LS Instructors Github username's: 
   tetondan
